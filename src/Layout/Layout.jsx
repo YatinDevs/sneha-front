@@ -63,7 +63,7 @@ function Layout() {
         <main className="relative min-h-[calc(100vh-120px)]">
           <Outlet />
         </main>
-        <Footer />
+        {/* <Footer /> */}
         <WhatsAppPopup />
         <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       </CartContext.Provider>

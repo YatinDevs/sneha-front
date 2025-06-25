@@ -7,6 +7,7 @@ import {
   Mail,
   MapPin,
   ShoppingBag,
+  ShoppingCart,
   Palette,
   Award,
   Scissors,
@@ -24,8 +25,14 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const { cartItems, removeFromCart, updateQuantity, cartTotal, closeCart } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    openCart,
+    removeFromCart,
+    updateQuantity,
+    cartTotal,
+    closeCart,
+  } = useContext(CartContext);
 
   const navItems = [
     { label: "Home", path: "/", icon: <Home className="h-4 w-4 mr-2" /> },
@@ -142,11 +149,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
             <a href="/" className="text-2xl font-bold text-purple-700">
-              <img
-                src="/logo.png"
-                alt="Sneha Creation Logo"
-                className="h-12 w-auto ml-2"
-              />
+              <img src="/logo.png" alt="Sneha " className="h-12 w-auto ml-2" />
             </a>
           </div>
 
@@ -207,22 +210,40 @@ const Navbar = () => {
               </div>
             ))}
             {/* Shopping Cart Button */}
-            <a
-              href="/cart"
-              className="ml-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+            <button
+              onClick={openCart}
+              className="relative ml-4 bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex  items-center transition-colors "
             >
               <ShoppingBag className="h-4 w-4 mr-2" />
-              Cart (0)
-            </a>
+              <div> Cart</div>
+              {cartItems?.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItems?.reduce((total, item) => total + item.quantity, 0)}
+                </span>
+              )}
+            </button>
           </div>
+          <div className="flex gap-4 ">
+            <button
+              onClick={openCart}
+              className="lg:hidden relative px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl flex items-center"
+            >
+              <ShoppingCart size={20} />
+              {cartItems?.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-xl w-5 h-5 flex items-center justify-center">
+                  {cartItems?.reduce((total, item) => total + item.quantity, 0)}
+                </span>
+              )}
+            </button>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden text-gray-800 focus:outline-none"
-            onClick={toggleMenu}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden text-gray-800 focus:outline-none"
+              onClick={toggleMenu}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -239,16 +260,12 @@ const Navbar = () => {
             <div className="container mx-auto px-4 py-6">
               <div className="flex justify-between items-center mb-8">
                 <div className="flex items-center">
-                  <img
-                    src="/logo.png"
-                    alt="Sneha Creation"
-                    className="h-10 w-10"
-                  />
+                  <img src="/logo.png" alt="" className="h-10 w-10" />
                   <a
                     href="/"
                     className="text-xl font-bold text-purple-600 ml-2"
                   >
-                    Sneha Creation
+                    SnehasCreation
                   </a>
                 </div>
                 <button onClick={toggleMenu} className="text-gray-800">
@@ -317,27 +334,34 @@ const Navbar = () => {
               </div>
 
               <div className="mt-6">
-                <button
+                {/* <button
                   onClick={openCart}
-                  className="relative p-2 hover:bg-gray-100 rounded-full"
+                  className="relative p-2 hover:bg-gray-100 rounded-full flex items-center"
                 >
-                  <ShoppingCart size={20} />
-                  {cartItems.length > 0 && (
+                  {cartItems?.length > 0 && (
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartItems.reduce(
+                      {cartItems?.reduce(
                         (total, item) => total + item.quantity,
                         0
                       )}
                     </span>
                   )}
-                </button>
-                <a
-                  href="https://wa.me/919876543210"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg flex items-center justify-center transition-colors"
+                </button> */}
+                <button
+                  onClick={openCart}
+                  className="relative px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl flex items-center"
                 >
-                  <i className="fab fa-whatsapp h-5 w-5 mr-2"></i>
-                  WhatsApp for Custom Orders
-                </a>
+                  <ShoppingCart size={20} />
+                  {cartItems?.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-xl w-5 h-5 flex items-center justify-center">
+                      {cartItems?.reduce(
+                        (total, item) => total + item.quantity,
+                        0
+                      )}
+                    </span>
+                  )}
+                  <span className="ml-2"> Cart</span>
+                </button>
               </div>
 
               <div className="mt-8 p-4 bg-purple-50 rounded-lg">
